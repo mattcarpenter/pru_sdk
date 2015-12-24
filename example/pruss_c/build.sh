@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-export PRU_SDK_DIR=/segfs/linux/pru_sdk
-export PRU_CGT_DIR=$PRU_SDK_DIR/pru_2.0.0B2
+export PRU_SDK_DIR=/home/debian/repos/pru_sdk
+export PRU_CGT_DIR=/home/debian/repos/pru_2.0.0B2
 
 
 # compile support library without optimization

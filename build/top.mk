@@ -1,14 +1,13 @@
-CROSS_COMPILE ?= /segfs/linux/dance_sdk/toolchain/arm-buildroot-linux-uclibcgnueabi/bin/arm-buildroot-linux-uclibcgnueabi-
 
-PRU_SDK_DIR ?= /segfs/linux/pru_sdk
+PRU_SDK_DIR ?= /home/debian/repos/pru_sdk
 
 CC := $(CROSS_COMPILE)gcc
 LD := $(CROSS_COMPILE)gcc
 STRIP := $(CROSS_COMPILE)strip
 PASM := $(PRU_SDK_DIR)/bin/pasm
-DTC := $(PRU_SDK_DIR)/bin/dtc
+DTC := /usr/local/bin/dtc
 
-C_FLAGS += -Wall -O2 -mtune=cortex-a8 -march=armv7-a
+C_FLAGS += -Wall -O2 -mtune=cortex-a8 -march=armv7-a 
 
 C_FLAGS += -I$(PRU_SDK_DIR)/include
 L_FLAGS += -L$(PRU_SDK_DIR)/lib

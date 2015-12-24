@@ -1,6 +1,5 @@
 ROOTDIR = ..
 TARGET = libprussdrv
-CROSS_COMPILE?=arm-arago-linux-gnueabi-
 PREFIX?=/usr/local
 
 CC = $(CROSS_COMPILE)gcc
