@@ -24,8 +24,23 @@
    // Beware: Many other PRU EGP pins are reserved by HDMI or onboard flash, which  
    // would need to be disabled first by editing uEnv.txt and rebooting.  
    exclusive-use =  
-      "P8.11", "P8.16", "pru0";  
-   
+	"P9.27",
+	"P9.25",
+	"P9.28",
+	"P9.29",
+	"P9.30",
+	"P9.31",
+	"P9.41",
+	"P9.42",
+	"pr1_pru0_pru_r30_5",
+	"pr1_pru0_pru_r30_7",
+	"pr1_pru0_pru_r30_3",
+	"pr1_pru0_pru_r30_1",
+	"pr1_pru0_pru_r30_2",
+	"pr1_pru0_pru_r30_0",
+	"pr1_pru0_pru_r30_6",
+	"pr1_pru0_pru_r30_4";
+	 
    fragment@0 {  
     target = <&am33xx_pinmux>;  
     __overlay__ {  
@@ -45,11 +60,20 @@
        // For P8_16, we want it to be an input, so we also set bit 5, yielding  
        // a value of 0x26. We could also set bits 3 and 4 to enable a pullup  
        // or pulldown.  
-       pinctrl-single,pins = <  
-         0x34 0x06  
-         0x38 0x26  
-       >;  
-      };  
+
+       pinctrl-single,pins = <
+	0x1a4 0xd   //pr1_pru0_pru_r30_5 P9.27
+	0x1ac 0xd   //pr1_pru0_pru_r30_7 P9.25
+	0x19c 0xd   //pr1_pru0_pru_r30_3 P9.28
+	0x194 0xd   //pr1_pru0_pru_r30_1 P9.29
+	0x198 0xd   //pr1_pru0_pru_r30_2 P9.30
+	0x190 0xd   //pr1_pru0_pru_r30_0 P9.31
+	0x1b4 0x28  //set input
+	0x1a0 0x28  //set input
+	0x1a8 0xd   //pr1_pru0_pru_r30_6 P9.41
+	0x1a0 0xd   //pr1_pru0_pru_r30_4 P9.42
+       >; 
+     };  
     };  
    };  
    
