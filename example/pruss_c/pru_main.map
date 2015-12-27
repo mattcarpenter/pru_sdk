@@ -1,10 +1,10 @@
 ******************************************************************************
                      PRU Linker Unix v2.0.0                    
 ******************************************************************************
->> Linked Fri Dec 25 04:03:31 2015
+>> Linked Sun Dec 27 17:47:37 2015
 
 OUTPUT FILE NAME:   <pru_main.elf>
-ENTRY POINT SYMBOL: "_c_int00_noinit_noargs_noexit"  address: 00000044
+ENTRY POINT SYMBOL: "_c_int00_noinit_noargs_noexit"  address: 00000158
 
 
 MEMORY CONFIGURATION
@@ -12,7 +12,7 @@ MEMORY CONFIGURATION
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
 PAGE 0:
-  PRUIMEM               00000000   00001000  00000078  00000f88  RWIX
+  PRUIMEM               00000000   00001000  0000018c  00000e74  RWIX
 
 PAGE 1:
   PRUDMEM               00000000   00001000  00000100  00000f00  RWIX
@@ -23,13 +23,16 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.text      0    00000000    00000078     
-                  00000000    00000028     pru_hal.obj (.text:shm_init)
-                  00000028    0000001c     pru_main.obj (.text:main)
-                  00000044    00000014     rtspruv3_le.lib : boot_special.obj (.text:_c_int00_noinit_noargs_noexit)
-                  00000058    00000010     pru_hal.obj (.text:ocp_init)
-                  00000068    00000008     rtspruv3_le.lib : exit.obj (.text:abort)
-                  00000070    00000008                     : exit.obj (.text:loader_exit)
+.text      0    00000000    0000018c     
+                  00000000    000000c0     pru_main.obj (.text:spiWrite2Bytes)
+                  000000c0    00000034     pru_main.obj (.text:main)
+                  000000f4    00000028     pru_hal.obj (.text:shm_init)
+                  0000011c    00000020     pru_main.obj (.text:clearBit)
+                  0000013c    0000001c     pru_main.obj (.text:setBit)
+                  00000158    00000014     rtspruv3_le.lib : boot_special.obj (.text:_c_int00_noinit_noargs_noexit)
+                  0000016c    00000010     pru_hal.obj (.text:ocp_init)
+                  0000017c    00000008     rtspruv3_le.lib : exit.obj (.text:abort)
+                  00000184    00000008                     : exit.obj (.text:loader_exit)
 
 .stack     1    00000000    00000100     UNINITIALIZED
                   00000000    00000004     rtspruv3_le.lib : boot.obj (.stack)
@@ -49,7 +52,7 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address    name
 --------   ----
-00000070   C$$EXIT
+00000184   C$$EXIT
 00000100   __TI_STACK_END
 00000100   __TI_STACK_SIZE
 00000001   __TI_args_main
@@ -58,13 +61,16 @@ address    name
 00000001   __TI_exit
 ffffffff   __binit__
 ffffffff   __c_args__
-00000044   _c_int00_noinit_noargs_noexit
+00000158   _c_int00_noinit_noargs_noexit
 00000000   _stack
-00000068   abort
+0000017c   abort
 ffffffff   binit
-00000028   main
-00000058   ocp_init
-00000000   shm_init
+0000011c   clearBit
+000000c0   main
+0000016c   ocp_init
+0000013c   setBit
+000000f4   shm_init
+00000000   spiWrite2Bytes
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -72,20 +78,23 @@ GLOBAL SYMBOLS: SORTED BY Symbol Address
 address    name
 --------   ----
 00000000   _stack
-00000000   shm_init
+00000000   spiWrite2Bytes
 00000001   __TI_args_main
 00000001   __TI_auto_init
 00000001   __TI_c_int00
 00000001   __TI_exit
-00000028   main
-00000044   _c_int00_noinit_noargs_noexit
-00000058   ocp_init
-00000068   abort
-00000070   C$$EXIT
+000000c0   main
+000000f4   shm_init
 00000100   __TI_STACK_END
 00000100   __TI_STACK_SIZE
+0000011c   clearBit
+0000013c   setBit
+00000158   _c_int00_noinit_noargs_noexit
+0000016c   ocp_init
+0000017c   abort
+00000184   C$$EXIT
 ffffffff   __binit__
 ffffffff   __c_args__
 ffffffff   binit
 
-[16 symbols]
+[19 symbols]
