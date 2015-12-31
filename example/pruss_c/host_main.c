@@ -40,6 +40,17 @@ static int read_words(uint32_t* x, size_t n)
   return 0;
 }
 
+static void write_word()
+{
+  static const size_t sharedram_offset = 2048;
+  volatile uint32_t* p;
+  size_t i;
+
+  prussdrv_map_prumem(PRUSS0_SHARED_DATARAM, (void**)&p);
+
+  p[sharedram_offset] = 0xdeadbeef;
+}
+
 
 /* sigint handler */
 
@@ -81,6 +92,8 @@ int main(int ac, char** av)
   prussdrv_exec_program_at(PRU_NUM, "./text.bin", START_ADDR);
 
   signal(SIGINT, on_sigint);
+
+  write_word();
   while (is_sigint == 0)
   {
     usleep(1000000);

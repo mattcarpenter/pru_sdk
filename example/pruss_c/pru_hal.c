@@ -75,7 +75,7 @@ uint32_t shm_read(register uint32_t i)
    " LDI32 r1, 0x2202c \n"
    " SBBO &r0, r1, 0, 4 \n"
 
-   " LBCO &r14, C31, 0, 4 \n"
+   " LBCO &r14, C28, r14.w0, 4\n"
    " JMP R3.w2 \n"
   );
 
