@@ -12,7 +12,7 @@
  * P9.30 [:2] - SS2
  * P9.31 [:0] - SS3
  * P9.41 [:6] - SS4
- * P9.42 [:4] - SS5
+ * P9.42 [:4] - DAC Latch
  */
 
 /**
@@ -36,6 +36,14 @@ int main(void)
   unsigned int point = 0;
   unsigned char high;
   unsigned char low;
+  uint32_t offset = 0;
+  uint32_t points = 0;
+
+  // latch dac
+  setBit(4);
+
+  //POINT x;
+  //POINT y;
 
   // set up one image frame
   POINT frame[4][2];
@@ -59,8 +67,8 @@ int main(void)
   ocp_init();
   shm_init();
 
-  uint32_t i = shm_read(0);
-  shm_write_uint32(4, i);
+  //uint32_t i = shm_read(0);
+  //shm_write_uint32(4, i);
 
 
   //shm_write_uint32(4, i);
@@ -69,20 +77,40 @@ int main(void)
   //shm_write_uint32(8, 0);
   while (1)
   {
-    
+    POINT x;
+    POINT y;
+
+    x.IntVar = shm_read(offset) & 0xFFF;
+    offset+=4;
+    y.IntVar = shm_read(offset) & 0xFFF;
+    offset+=4;
+
+    points++;
+
     // write current point X to DAC0
-    frame[point][0].Bytes[1] |= (1 << 4); // set active mode operation
-    spiWrite2Bytes(frame[point][0].Bytes[1], frame[point][0].Bytes[0], SS0);
+    x.Bytes[1] |= (1 << 4); // set active mode operation
+    x.Bytes[1] |= (1 << 5); // gain = 1x
+    spiWrite2Bytes(x.Bytes[1], x.Bytes[0], SS0);
+    __delay_cycles(10);
 
     // write current point Y to DAC1
-    frame[point][1].Bytes[1] |= (1 << 4); //set active mode operation
-    frame[point][1].Bytes[1] |= (1 << 7); // set DAC1
-    spiWrite2Bytes(frame[point][1].Bytes[1], frame[point][1].Bytes[0], SS0);
+    y.Bytes[1] |= (1 << 4); //set active mode operation
+    y.Bytes[1] |= (1 << 5); // gain = 1x
+    y.Bytes[1] |= (1 << 7); // set DAC1
+    spiWrite2Bytes(y.Bytes[1], y.Bytes[0], SS0);
 
-    point++;
+    // trigger latch
+    __delay_cycles(20);
+    clearBit(4);
+    __delay_cycles(100);
+    setBit(4);
 
-    if (point == 4) {
-      point = 0;
+    __delay_cycles(400000);
+    //__delay_cycles(500);
+    //if (points >= 2484/2) {
+    if (points >= 5) {
+      points = 0;
+      offset = 0;
     }
   }
 
@@ -139,7 +167,6 @@ void spiWrite2Bytes(char high, char low, unsigned int SS) {
 
   clearBit(MOSI);
   setBit(SS);
-  __delay_cycles(200000);
 }
 
 /**
